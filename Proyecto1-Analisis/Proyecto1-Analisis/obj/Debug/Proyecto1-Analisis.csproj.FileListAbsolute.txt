@@ -1,0 +1,6 @@
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\bin\Debug\Proyecto1-Analisis.exe.config
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\bin\Debug\Proyecto1-Analisis.exe
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\bin\Debug\Proyecto1-Analisis.pdb
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\obj\Debug\Proyecto1-Analisis.csprojResolveAssemblyReference.cache
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\obj\Debug\Proyecto1-Analisis.exe
+c:\users\rfmr-\documents\visual studio 2015\Projects\Proyecto1-Analisis\Proyecto1-Analisis\obj\Debug\Proyecto1-Analisis.pdb
