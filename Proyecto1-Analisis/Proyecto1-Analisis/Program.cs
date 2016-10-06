@@ -8,9 +8,10 @@ namespace Proyecto1_Analisis
 {
     class Program
     {
+        public static int jumps;
         public static int vertices = 4;
         public static int[,] antecesors = new int[vertices,vertices];
-        public static int[,] distance = {   { 0, 5, 999, 999 }, { 50, 0, 15, 5 },
+        public static int[,] distanceMatrix = {   { 0, 5, 999, 999 }, { 50, 0, 15, 5 },
                                             { 30, 999, 0, 15 }, { 15, 999, 5, 0 } };
 
         public static int[,] fillMatrix ()
@@ -35,7 +36,7 @@ namespace Proyecto1_Analisis
             Console.WriteLine();
             for (int b = 0; b < 4; ++b)
                 Console.Write(" ");
-            for (int c = 0; c < 31; ++c)
+            for (int c = 0; c < (verticesCount*8); ++c)
                 Console.Write("-");
             for (int i = 0; i < verticesCount; ++i)
             {
@@ -49,19 +50,19 @@ namespace Proyecto1_Analisis
             Console.WriteLine("\n\n");
         }
 
-        public static void FloydWarshall(int[,] graph, int verticesCount)
+        public static int[,] FloydWarshall(int[,] graph)
         {
-            int[,] distance = new int[verticesCount, verticesCount];
+            int[,] distance = new int[vertices, vertices];
 
-            for (int i = 0; i < verticesCount; ++i)
-                for (int j = 0; j < verticesCount; ++j)
+            for (int i = 0; i < vertices; ++i)
+                for (int j = 0; j < vertices; ++j)
                     distance[i, j] = graph[i, j];
 
-            for (int k = 0; k < verticesCount; ++k)
+            for (int k = 0; k < vertices; ++k)
             {
-                for (int i = 0; i < verticesCount; ++i)
+                for (int i = 0; i < vertices; ++i)
                 {
-                    for (int j = 0; j < verticesCount; ++j)
+                    for (int j = 0; j < vertices; ++j)
                     {
                         if (distance[i, k] + distance[k, j] < distance[i, j])
                         {
@@ -71,8 +72,61 @@ namespace Proyecto1_Analisis
                     }
                 }
             }
+            return distance;
+        }
 
-            Print(distance, verticesCount);
+        public static int jumpsOfTheFloydWarshall(int[,] fW)
+        {
+            int totalJumps = 0;
+
+            return totalJumps;
+        }
+
+        public static int[,] FloydWarshallWithJumps(int[,] graph, int jumps)
+        {
+            int[,] distance = new int[vertices, vertices];
+
+            for (int i = 0; i < vertices; ++i)
+                for (int j = 0; j < vertices; ++j)
+                    distance[i, j] = graph[i, j];
+            
+            for (int k = 0; k < vertices; ++k)
+            {
+                for (int i = 0; i < vertices; ++i)
+                {
+                    for (int j = 0; j < vertices; ++j)
+                    {
+                        if (distance[i, k] + distance[k, j] < distance[i, j])
+                        {
+                            distance[i, j] = distance[i, k] + distance[k, j];
+                            antecesors[i, j] = k;
+                        }
+                    }
+                }
+            }
+            return distance;
+        }
+
+        public static int[,] modify(int initial, int final, int newDistance)
+        {
+
+            if(distanceMatrix[initial,final] != newDistance)
+            {
+                distanceMatrix[initial, final] = newDistance;
+                
+                for (int i = 0; i < vertices; i++)
+                {
+                    for (int j = 0; j < vertices; j++)
+                    {
+                        if (distanceMatrix[i, final] + distanceMatrix[final, j] < distanceMatrix[i, j])
+                        {
+                            distanceMatrix[i, j] = distanceMatrix[i, final] + distanceMatrix[final, j];
+                            antecesors[i, j] = final;
+                        }
+                    }
+                }
+            }
+            return distanceMatrix;
         }
 
         private static void dataRequest()
@@ -103,18 +157,25 @@ namespace Proyecto1_Analisis
                     Console.Write("Type the ending vertex: ");
                     int e = Convert.ToInt32(Console.ReadLine());
                     Console.Write("Type the new distance: ");
-                    int m = Convert.ToInt32(Console.ReadLine());
-                    distance[i, e] = m;
-                    Print(distance, vertices);
+                    int nd = Convert.ToInt32(Console.ReadLine());
+                    int[,] temp = modify(i, e, nd);
+                    Print(temp, vertices);
+                    Print(antecesors, vertices);
                 }
                 if (op == "3")
                 {
-                    FloydWarshall(distance, vertices);
+                    Console.Write("\n\tOriginal: \n");
+                    Print(distanceMatrix, vertices);
+                    int[,] temp = FloydWarshall(distanceMatrix);
+                    Console.Write("\n\tFloydWarshall: \n");
+                    Print(temp, vertices);
+                    Console.Write("\n\tPredecesors: \n");
                     Print(antecesors, vertices);
                 }
                 if (op == "4")
                 {
-                    Console.WriteLine("Building...");
+                    Console.Write("Type the amount of jumps you want: ");
+                    jumps = Convert.ToInt32(Console.ReadLine());
                 }
             } while (op != "0");
         }
